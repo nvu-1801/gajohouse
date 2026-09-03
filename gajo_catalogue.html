@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAJO's HOUSE - Boutique Homestay Catalogue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* --- DESIGN SYSTEM --- */
+        :root {
+            --bg-cream: #F9F6EE;
+            --white: #FFFFFF;
+            --warm-oak: #B88B4A;
+            --muted-sage: #7A9A8C;
+            --charcoal: #222222;
+            --text-grey: #666666;
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Montserrat', sans-serif;
+
+            --slide-width: 100vw;
+            --slide-height: 56.25vw;
+            --padding-base: 4vw;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-weight: 300;
+            background-color: #333;
+            color: var(--charcoal);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .catalogue {
+            position: relative;
+            width: var(--slide-width);
+            height: var(--slide-height);
+            margin: 0 auto;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            scroll-snap-type: x mandatory;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            background-color: var(--bg-cream);
+            overflow: hidden;
+            display: flex;
+            padding: var(--padding-base);
+            position: relative;
+        }
+
+        @media (min-width: 1920px) {
+            :root {
+                --slide-width: 1920px;
+                --slide-height: 1080px;
+                --padding-base: 80px;
+            }
+            .catalogue {
+                top: calc(50vh - 540px);
+            }
+        }
+
+        h1, h2, h3, .serif {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            color: var(--charcoal);
+        }
+
+        h1 { font-size: 4.5vw; line-height: 1.1; margin-bottom: 2vw; }
+        h2 { font-size: 3vw; line-height: 1.2; margin-bottom: 1.5vw; color: var(--warm-oak); }
+        h3 { font-size: 1.8vw; font-weight: 700; margin-bottom: 0.5vw; }
+
+        p {
+            font-size: 1vw;
+            line-height: 1.8;
+            color: var(--text-grey);
+            margin-bottom: 1.5vw;
+        }
+
+        .subtitle {
+            font-size: 1vw;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--muted-sage);
+            margin-bottom: 0.5vw;
+            display: block;
+        }
+
+        strong { font-weight: 600; color: var(--charcoal); }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .content-wrap {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .split-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            gap: 5vw;
+        }
+        .split-col { flex: 1; height: 100%; overflow: hidden;}
+        .split-col.text { padding-top: 5vw; }
+
+        .full-img-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        .tile-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            gap: 1.5vw;
+            width: 100%; height: 100%;
+        }
+        .tile { overflow: hidden; background: #ddd; border-radius: 4px; }
+        .tile-1 { grid-column: 1 / 8; grid-row: 1 / 13; }
+        .tile-2 { grid-column: 8 / 13; grid-row: 1 / 7; }
+        .tile-3 { grid-column: 8 / 13; grid-row: 7 / 13; }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3vw;
+            margin-top: 3vw;
+        }
+        .icon-item { text-align: center; }
+        .icon-svg { width: 3vw; height: 3vw; margin-bottom: 1vw; }
+
+        .map-placeholder {
+            width: 100%; height: 25vw;
+            background: #e0e0e0;
+            border: 2px solid var(--warm-oak);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2vw; font-family: var(--font-serif);
+            margin-bottom: 2vw;
+        }
+
+        .quote-block {
+            padding: 5vw 10vw;
+            text-align: center;
+        }
+        .quote-icon {
+            font-family: var(--font-serif);
+            font-size: 10vw;
+            color: var(--warm-oak);
+            opacity: 0.3;
+            line-height: 0;
+            margin-bottom: -2vw;
+            display: block;
+        }
+        .quote-text {
+            font-family: var(--font-serif);
+            font-size: 2.2vw;
+            line-height: 1.4;
+            margin-bottom: 2vw;
+            font-style: italic;
+        }
+        .translation {
+            font-size: 1vw;
+            color: var(--text-grey);
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .qr-area {
+            display: flex; gap: 2vw; align-items: center; margin-top: 3vw;
+        }
+        .qr-code {
+            width: 10vw; height: 10vw;
+            padding: 0.5vw;
+            border: 1px solid var(--muted-sage);
+        }
+
+        .page-num {
+            position: absolute;
+            bottom: 2vw; right: 2vw;
+            font-size: 0.8vw;
+            letter-spacing: 0.2em;
+            color: var(--muted-sage);
+        }
+
+        .nav-hint {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            color: #ccc; font-size: 12px; z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav-hint">Dùng mũi tên &larr; &rarr; để chuyển trang</div>
+
+<div class="catalogue" id="slider">
+
+    <!-- PAGE 1: COVER -->
+    <div class="slide cover" id="p1" style="color: var(--white); background: var(--charcoal);">
+        <img src="assets/gajo-interior.jpg" onerror="this.src='https://images.unsplash.com/photo-1540518614846-7ede433c4550?q=80&w=1920'" alt="Exterior dusk view of GAJO's HOUSE" class="full-img-bg" style="opacity: 0.55;">
+        
+        <div class="content-wrap" style="z-index: 10; justify-content: center; text-align: center;">
+            <div style="width: 65%">
+                <span class="subtitle" style="color: var(--bg-cream)">BOUTIQUE HOMESTAY</span>
+                <h1 class="serif" style="color: var(--bg-cream);">GAJO’s HOUSE</h1>
+                <p class="serif" style="font-size: 1.5vw; font-style: italic; color: var(--white);">"Chạm bình yên nơi thời gian chậm lại &bull; Hoài Nhơn, Bình Định"</p>
+            </div>
+        </div>
+        <div class="page-num">P1</div>
+    </div>
+
+    <!-- PAGE 2: WELCOME -->
+    <div class="slide" id="p2">
+        <div class="split-layout">
+            <div class="split-col text">
+                <span class="subtitle">Welcome Home</span>
+                <h2>Lời ngỏ</h2>
+                <p>Chào mừng bạn đến với <strong>GAJO’s HOUSE</strong>.</p>
+                <p>Là một boutique homestay mới xây được chăm chút tỉ mỉ từng chi tiết, chúng tôi mang không gian lưu trú hiện đại, yên tĩnh và <strong>sạch sẽ không tì vết ("spotless")</strong>. </p>
+                <p>Nơi hoàn hảo để ngả lưng, phục hồi năng lượng và tận hưởng bình yên tại trung tâm Hoài Nhơn Đông.</p>
+            </div>
+            <div class="split-col">
+                <img src="assets/gajo-interior.jpg" onerror="this.src='https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=800'" alt="GAJO's HOUSE modern lobby view" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">
+            </div>
+        </div>
+        <div class="page-num">P2</div>
+    </div>
+
+    <!-- PAGE 3: THE SPACE (ẢNH PHÒNG THỰC TẾ TRÊN BOOKING / GOOGLE MAPS) -->
+    <div class="slide" id="p3" style="background-color: var(--white);">
+        <div class="content-wrap" style="gap: 2vw; display: flex; flex-direction: column;">
+            <div style="display:flex; width:100%; gap: 3vw; align-items:center;">
+                <h2 style="margin: 0;">Không gian lưu trú thực tế</h2>
+                <div style="height: 1px; flex:1; background: var(--muted-sage);"></div>
+            </div>
+            
+            <div class="tile-grid">
+                <div class="tile tile-1">
+                    <img src="assets/gajo-family-room.jpg" style="width:100%; height:100%; object-fit:cover;" alt="Phòng GA-ĐÌNH 2 Giường Lớn Thực Tế">
+                </div>
+                <div class="tile tile-2">
+                    <img src="assets/gajo-double-bed.jpg" style="width:100%; height:100%; object-fit:cover;" alt="Phòng GA-AN Giường Đôi">
+                </div>
+                <div class="tile tile-3">
+                    <img src="assets/gajo-single-bed.jpg" style="width:100%; height:100%; object-fit:cover;" alt="Phòng GA-MỘ Giường Đơn Tiêu Chuẩn">
+                </div>
+            </div>
+        </div>
+        <div class="page-num">P3</div>
+    </div>
+
+    <!-- PAGE 4: AMENITIES -->
+    <div class="slide" id="p4">
+        <div class="content-wrap" style="display: flex; gap: 4vw;">
+            <div style="flex: 1;">
+                <img src="assets/gajo-interior.jpg" alt="Detailed view of GAJO's HOUSE" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">
+            </div>
+            <div style="flex: 2; padding-top: 2vw;">
+                <h2>Tiện nghi hiện đại</h2>
+                <p>Chúng tôi trang bị đầy đủ công nghệ để đảm bảo trải nghiệm lưu trú của bạn được trọn vẹn nhất.</p>
+                
+                <div class="icon-grid serif">
+                    <div class="icon-item">
+                        <svg class="icon-svg" style="fill: var(--warm-oak);" viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
+                        <h3>Smart TV</h3>
+                        <p style="font-size: 0.9vw;">Màn hình cỡ lớn, sẵn sàng Netflix & Youtube.</p>
+                    </div>
+                    <div class="icon-item">
+                        <svg class="icon-svg" style="fill: var(--warm-oak);" viewBox="0 0 24 24"><path d="M11 20H4a1 1 0 0 1-1-1v-2c0-2.2 1.8-4 4-4h1v1h-1c-1.65 0-3 1.35-3 3v1h7.08c-.05-.33-.08-.66-.08-1 0-3.31 2.69-6 6-6 1 0 1.94.25 2.76.68.21-.19.46-.35.73-.48-.96-.75-2.18-1.2-3.49-1.2h-.5c-.83 0-1.5-.67-1.5-1.5V6.5c0-.83-.67-1.5-1.5-1.5H9C6.24 5 4 7.24 4 10v3h1c0-2.2 1.8-4 4-4 .83 0 1.5.67 1.5 1.5V11c0 .83.67 1.5 1.5 1.5h1V12.08A5.94 5.94 0 0 0 16 11c3.31 0 6 2.69 6 6s-2.69 6-6 6a5.94 5.94 0 0 1-3.08-.87L11 20zm5-7a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>
+                        <h3>Điều hòa</h3>
+                        <p style="font-size: 0.9vw;">AC thế hệ mới, vận hành êm ái, mát sâu.</p>
+                    </div>
+                    <div class="icon-item">
+                        <svg class="icon-svg" style="fill: var(--warm-oak);" viewBox="0 0 24 24"><path d="M7 5V2h10v3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3zm2 2H4v12h16V7H9zm4-3H11v1h2V4zM6 10h12v2H6v-2zm0 4h12v2H6v-2z"/></svg>
+                        <h3>Nước nóng</h3>
+                        <p style="font-size: 0.9vw;">Hệ thống nước nóng trung tâm ổn định.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-num">P4</div>
+    </div>
+
+    <!-- PAGE 5: THOUGHTFUL SERVICES -->
+    <div class="slide" id="p5" style="background: var(--muted-sage); color: var(--white);">
+        <div class="split-layout">
+            <div class="split-col text" style="color: var(--white); text-align: right;">
+                <span class="subtitle" style="color: var(--bg-cream)">Beyond Staying</span>
+                <h2 style="color: var(--white);">Dịch vụ tận tâm</h2>
+                <p style="color: var(--bg-cream);">Chúng tôi tin rằng những chi tiết nhỏ làm nên trải nghiệm lớn.</p>
+                
+                <div style="display:flex; justify-content: flex-end; gap: 3vw; margin-top: 3vw;">
+                    <div style="width: 6vw; text-align:center;">
+                        <svg class="icon-svg" style="fill: var(--bg-cream);" viewBox="0 0 24 24"><path d="M19.7 15c-.4 0-.8.3-.8.8s.3.8.8.8 1.1-.3 1.1-.8-.4-.8-1.1-.8zM17.3 12c.4 0 .8-.3.8-.8s-.3-.8-.8-.8-1.1.3-1.1.8.3.8 1.1.8zm-7.6-3.8c.7 0 1.2-.5 1.2-1.2s-.5-1.2-1.2-1.2c-.7 0-1.2.5-1.2 1.2s.6 1.2 1.2 1.2zm-.9 4.3c.7 0 1.2-.5 1.2-1.2s-.5-1.2-1.2-1.2c-.7 0-1.2.5-1.2 1.2s.6 1.2 1.2 1.2zm6.2-7.5l2-2h-3v-2h6v2l-2 2h3v2h-6v-2zM4.1 22h15.8c1.1 0 2-.9 2-2V9.3c0-.6-.2-1.1-.6-1.5L16.4 3c-.4-.4-.9-.6-1.5-.6H4.1c-1.1 0-2 .9-2 2v15.6c0 1.1.9 2 2 2zm16.1-2c0 .2-.1.3-.3.3H4.1c-.2 0-.3-.1-.3-.3V4.4c0-.2.1-.3.3-.3h10.8L19.9 9v11zM11 11h2v6h-2v-6zm3 4h2v2h-2v-2zM8 11h2v6H8v-6z"/></svg>
+                        <h3 style="color: var(--bg-cream); font-size: 1vw;">LGBTQ+ Friendly</h3>
+                    </div>
+                    <div style="width: 6vw; text-align:center;">
+                        <svg class="icon-svg" style="fill: var(--bg-cream);" viewBox="0 0 24 24"><path d="M19.33 11l-3-4H8.67l-3 4H1c-.55 0-1 .45-1 1v2c0 .55.45 1 1 1h2.1l.82 2.6c.26.83 1.03 1.4 1.9 1.4h11.37c.87 0 1.63-.57 1.9-1.4L20.9 16H23c.55 0 1-.45 1-1v-2c0-.55-.45-1-1-1h-3.67zM8.67 8h6.66L18 11H6L8.67 8zm9.33 11c-.3.92-1.17 1.6-2.18 1.6H8.18c-1.01 0-1.88-.68-2.18-1.6H17.2zM4.53 14H6l1.23-1H4.53zM18 14h1.47l-1.23-1H18z"/></svg>
+                        <h3 style="color: var(--bg-cream); font-size: 1vw;">Bãi đậu xe máy</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="split-col">
+                <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800" alt="Host assisting guests" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">
+            </div>
+        </div>
+        <div class="page-num">P5</div>
+    </div>
+
+    <!-- PAGE 6: LOCAL GUIDE -->
+    <div class="slide" id="p6">
+        <div class="content-wrap" style="flex-direction: column;">
+            <div style="text-align:center; width: 60%; margin-bottom: 2.5vw;">
+                <span class="subtitle">Discover</span>
+                <h2>Vị trí yên bình</h2>
+                <p>Tọa lạc tại Hẻm 23 Phan Trọng Tuệ, Hoài Nhơn Đông. <br/> Một góc phố yên tĩnh tuyệt đối nhưng vẫn thuận tiện kết nối đến khu ẩm thực và biển cả Hoài Nhơn.</p>
+            </div>
+            <div class="map-placeholder" style="background: #EAE6DF; border: 1px solid var(--warm-oak); flex-direction: column; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px; color: var(--charcoal);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--warm-oak)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    <strong>GAJO's HOUSE — TỌA ĐỘ VÀNG HOÀI NHƠN ĐÔNG</strong>
+                </div>
+                <p style="margin: 0; font-size: 0.9vw; color: var(--text-grey);">Hẻm 23 Phan Trọng Tuệ &bull; Cách trung tâm ẩm thực chỉ 3-5 phút</p>
+            </div>
+        </div>
+        <div class="page-num">P6</div>
+    </div>
+
+    <!-- PAGE 7: MUST TRY 1 -->
+    <div class="slide MUST-TRY" id="p7" style="background: var(--charcoal); color: var(--white);">
+        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1920" alt="Cozy evening at Tiệm Nướng Nhà Gạo" class="full-img-bg" style="opacity: 0.5;">
+        <div class="split-layout" style="z-index: 10;">
+            <div class="split-col text" style="color: var(--white); padding-left: 2vw;">
+                <span class="subtitle" style="color: var(--warm-oak); font-weight: bold;">MUST-TRY DINE</span>
+                <h1 class="serif" style="color: var(--white);">Tiệm nướng <br/> Nhà Gạo</h1>
+                <p style="color: var(--white); font-size: 1.1vw;">Chỉ cách homestay ~2.6km. <br/> Điểm đến lý tưởng cho buổi tối chill.</p>
+                
+                <div style="background: var(--bg-cream); color: var(--charcoal); padding: 1.5vw; width: fit-content; margin-top: 2vw; border-left: 4px solid var(--warm-oak);">
+                    <p style="margin:0; font-size: 1.1vw;"><strong>Đặc quyền khách lưu trú:</strong> <br/> Tiệm cùng chung chủ với GAJO’s House. <br/> *Đặt nướng ngay qua hotline <strong>0902 286 300</strong> để nhận ưu đãi!</p>
+                </div>
+            </div>
+            <div class="split-col text" style="color: var(--white); font-size: 0.9vw; text-align: right;">
+                 <p style="color: var(--white);">Hẻm 23, Trường Sa, Hoài Nhơn Đông</p>
+                 <p style="color: var(--white);">Opening: 06:00 – 22:30</p>
+                 <img src="https://images.unsplash.com/photo-1544025162-81111420a325?q=80&w=600" alt="BBQ food view" style="width: 60%; float: right; border: 4px solid var(--white); border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            </div>
+        </div>
+        <div class="page-num">P7</div>
+    </div>
+
+    <!-- PAGE 8: MUST TRY 2 -->
+    <div class="slide" id="p8" style="background-color: var(--white);">
+        <div class="content-wrap">
+            <div style="flex: 2;">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000" alt="Artistic local Gia Lai dish" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">
+            </div>
+            <div style="flex: 1; padding: 4vw; background-color: var(--bg-cream); border-radius:4px; margin-left: 2vw;">
+                 <span class="subtitle">Local Flavor</span>
+                 <h3>Quán <br/> A Mãi</h3>
+                <p>Khoảng cách ~2.8km. <br/> Điểm đến được thực khách địa phương đánh giá <strong>4.7 sao</strong>, mang đậm hương vị bản địa Hoài Nhơn.</p>
+            </div>
+        </div>
+        <div class="page-num">P8</div>
+    </div>
+
+    <!-- PAGE 9: TESTIMONIALS 1 -->
+    <div class="slide" id="p9">
+        <div class="content-wrap quote-block serif">
+            <span class="quote-icon">&ldquo;</span>
+            <blockquote class="quote-text">
+                Amazing boutique homestay. Very cozy and newly built—rare to find a place in Vietnam that is so well thought out.
+                <span class="translation">(Homestay tuyệt vời. Ấm cúng, mới mẻ — một nơi hiếm có ở Việt Nam được đầu tư kỹ lưỡng đến vậy.)</span>
+            </blockquote>
+            <cite class="serif" style="font-weight: 600; font-style: normal; color: var(--warm-oak);">5 / 5 Đánh giá khách hàng</cite>
+        </div>
+        <div class="page-num">P9</div>
+    </div>
+
+    <!-- PAGE 10: TESTIMONIALS 2 -->
+    <div class="slide" id="p10">
+        <div class="split-layout">
+            <div class="split-col quote-block" style="text-align: left; padding: 0;">
+                <span class="quote-icon" style="text-align: left;">&ldquo;</span>
+                <blockquote class="serif quote-text" style="font-size: 1.8vw;">
+                    The room was beautiful and spotless. We slept very well. The hosts were very friendly!
+                    <span class="translation">(Phòng tuyệt đẹp và sạch không tì vết. Chúng tôi ngủ cực ngon. Chủ nhà vô cùng thân thiện!)</span>
+                </blockquote>
+                <cite class="serif" style="font-weight: 600; font-style: normal; color: var(--warm-oak);">5 / 5 Sao (Verified Guest)</cite>
+            </div>
+             <div class="split-col">
+                <img src="assets/gajo-family-room.jpg" alt="Window view and room ambiance" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">
+            </div>
+        </div>
+        <div class="page-num">P10</div>
+    </div>
+
+    <!-- PAGE 11: CONTACT -->
+    <div class="slide" id="p11" style="background-color: var(--white);">
+        <div class="split-layout">
+            <div class="split-col" style="flex: 1.8;">
+                 <img src="assets/gajo-interior.jpg" alt="GAJO's HOUSE interior" style="width:100%; height:100%; object-fit:cover; border-radius:4px;">
+            </div>
+            <div class="split-col text" style="background: var(--charcoal); color: var(--white); padding: 4vw; margin-top: -4vw; margin-bottom: -4vw; border-radius:4px;">
+                 <h2 style="color: var(--white); margin-top: 2vw;">Liên hệ Booking</h2>
+                 <p style="color: var(--bg-cream); margin-top: 1.5vw;">Đặt phòng ngay để tận hưởng không gian boutique sạch không tì vết.</p>
+                 
+                 <div style="margin-top: 2vw; display: flex; flex-direction: column; gap: 1.2vw; font-size: 0.9vw; line-height: 1.5;">
+                    <p style="color: var(--white); margin:0;"><strong>Địa chỉ:</strong> Hẻm 23, Phan Trọng Tuệ, Thạnh Xuân Đông, Hoài Nhơn</p>
+                    <p style="color: var(--warm-oak); margin:0;"><strong>Hotline/Zalo: 0902 286 300</strong></p>
+                    <p style="color: var(--white); margin:0;"><strong>Google Maps/Booking:</strong> Tìm "GAJO's HOUSE"</p>
+                 </div>
+            </div>
+        </div>
+        <div class="page-num">P11</div>
+    </div>
+
+    <!-- PAGE 12: CHECK-OUT -->
+    <div class="slide serif" id="p12" style="background: var(--charcoal); color: var(--white); text-align: center;">
+        <div class="content-wrap" style="flex-direction: column; justify-content: center; z-index: 10;">
+            <div style="width: 70%">
+                <h1 class="serif" style="color: var(--white); margin-bottom: 2vw;">Thank You!</h1>
+                <p style="color: var(--white);">Cảm ơn bạn đã lựa chọn GAJO’s House. Hy vọng bạn đã có một kỳ nghỉ thật bình yên.</p>
+                
+                <div class="qr-area serif" style="background: var(--bg-cream); color: var(--charcoal); padding: 2.5vw; border-radius: 2vw; display: inline-flex;">
+                    <div style="text-align: left; padding-right: 2vw;">
+                        <h3 style="font-size: 1.2vw; margin:0;">Trước khi rời đi:</h3>
+                        <p style="margin:0; font-size: 0.9vw;">- Trả chìa khóa <br/> - Kiểm tra đồ cá nhân <br/> - Quét mã bên để chia sẻ đánh giá 5 sao cho chúng mình nhé!</p>
+                    </div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.app.goo.gl/jAWENgZvarDbmG7f6" alt="HD QR Code for 5 Star Review" class="qr-code">
+                </div>
+            </div>
+        </div>
+        <div class="page-num">P12</div>
+    </div>
+
+</div>
+
+<script>
+    const slider = document.getElementById('slider');
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            currentIndex = (currentIndex + 1) % totalSlides;
+        } else if (e.key === 'ArrowLeft') {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        }
+        slider.style.transform = `translateX(-${currentIndex * 100}vw)`;
+    });
+</script>
+</body>
+</html>

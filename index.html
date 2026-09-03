@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAJO's HOUSE - Boutique Homestay Catalogue</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-light: #F7F5F0;
+            --bg-white: #FFFFFF;
+            --bg-dark: #2A2825;
+            --text-dark: #333333;
+            --text-light: #F7F5F0;
+            --accent-gold: #B88B4A;
+            --accent-sage: #6B887B;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-script: 'Dancing Script', cursive;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-dark);
+            background-color: #111111;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        /* Slider Container with Responsive Aspect Ratio */
+        .catalogue-container {
+            width: min(1040px, 96vw);
+            height: min(720px, calc(96vw * 0.692));
+            aspect-ratio: 1040 / 720;
+            background: var(--bg-light);
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.55);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.55s ease-in-out, visibility 0.55s;
+            display: flex;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: normal; }
+        .subtitle { font-family: var(--font-sans); letter-spacing: 2.5px; text-transform: uppercase; font-size: 0.78rem; color: #888; margin-bottom: 8px;}
+        .text-script { font-family: var(--font-script); font-size: clamp(1.8rem, 3.2vw, 2.5rem); }
+        p { font-size: clamp(0.78rem, 1.05vw, 0.88rem); line-height: 1.75; margin-bottom: 12px; }
+
+        /* Slide Layouts */
+        .half-split { display: flex; width: 100%; height: 100%; }
+        .half { width: 50%; height: 100%; padding: clamp(24px, 4vw, 55px); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        .bg-img { background-size: cover; background-position: center; }
+        .dark-bg { background-color: var(--bg-dark); color: var(--text-light); }
+        .white-bg { background-color: var(--bg-white); }
+        
+        .header-box { text-align: center; margin-bottom: 16px; width: 100%; }
+
+        /* Slide 1: Cover */
+        #slide-1 { 
+            background: linear-gradient(rgba(42, 40, 37, 0.72), rgba(42, 40, 37, 0.72)), url('assets/gajo-interior.jpg') center/cover, url('https://lh3.googleusercontent.com/gps-cs-s/AHRPTWl8HWjasc67x4XzK1GRECaF2MyKYQEx0WlrPDYXR4OTPs_jQqP-SW0roc7ZhKbrdtNPODyN7XrV5zv0pKQs6kU3_PjQrrvqR_Wu2CkIZW1C2BiyRGnFzGV_TXVHZyzR5IKLAylF9C-araI=w1600') center/cover; 
+            color: white; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            padding: 40px;
+        }
+        #slide-1 h1 { 
+            font-size: clamp(2.5rem, 5vw, 4rem); 
+            letter-spacing: 5px; 
+            margin-bottom: 16px; 
+            border-bottom: 1px solid rgba(255,255,255,0.3); 
+            padding-bottom: 16px;
+        }
+
+        /* Slide 4: Our Rooms (CĂN GIỮA TOÀN BỘ THEO CHIỀU DỌC & NGANG) */
+        #slide-4 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(20px, 3.5vw, 40px);
+            background-color: var(--bg-white);
+        }
+        .rooms-centered-container {
+            width: 100%;
+            max-width: 960px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            width: 100%;
+            margin-top: 6px;
+        }
+        .room-card {
+            background: var(--bg-white);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s ease;
+        }
+        .room-card-img {
+            width: 100%;
+            height: clamp(120px, 14vw, 150px);
+            object-fit: cover;
+        }
+        .room-card-body {
+            padding: 14px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .room-tag {
+            font-size: 0.68rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .room-card-body h3 {
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+        }
+        .room-card-body p {
+            font-size: 0.74rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .room-features {
+            display: flex;
+            gap: 12px;
+            font-size: 0.72rem;
+            color: #888;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 8px;
+            margin-top: auto;
+        }
+
+        /* Slide 5: Amenities */
+        .amenities-split-layout {
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            height: 100%;
+            width: 100%;
+        }
+        .amenities-photo-col {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+        .amenities-photo-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .amenities-badge-float {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            background: rgba(247, 245, 240, 0.95);
+            backdrop-filter: blur(8px);
+            padding: 12px 18px;
+            border-radius: 3px;
+            border-left: 3px solid var(--accent-gold);
+            font-family: var(--font-serif);
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+        .amenities-content-col {
+            padding: clamp(20px, 3.5vw, 45px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .amenities-grid-compact {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-top: 14px;
+        }
+        .amenity-mini-card {
+            background: var(--bg-white);
+            padding: 12px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .amenity-mini-icon {
+            font-size: 1.3rem;
+            color: var(--accent-gold);
+            width: 32px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .amenity-mini-text h4 {
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: var(--text-dark);
+        }
+        .amenity-mini-text p {
+            font-size: 0.68rem;
+            color: #888;
+            margin: 0;
+            line-height: 1.3;
+        }
+        
+        /* Slide 6: Places to Eat & Tiệm Nướng Nhà Gạo */
+        .food-showcase {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 25px;
+            height: 100%;
+            padding: 35px 40px;
+            align-items: center;
+        }
+        .bbq-hero-box {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 24px;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        .bbq-hero-box .badge {
+            background: var(--accent-gold);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .food-list-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .food-item-mini {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-white);
+            padding: 10px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .food-img-thumb {
+            width: 52px;
+            height: 52px;
+            border-radius: 4px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* Slide 7: 8 Trải nghiệm Hoài Nhơn (CĂN GIỮA TOÀN BỘ THEO CHIỀU DỌC & NGANG) */
+        #slide-7 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(15px, 2.5vw, 30px) clamp(20px, 3.5vw, 40px);
+        }
+        .exp-centered-container {
+            width: 100%;
+            max-width: 960px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
+        .experiences-grid-8 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-top: 4px;
+        }
+        .exp-item {
+            background: var(--bg-white);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
+        }
+        .exp-img {
+            width: 100%;
+            height: clamp(75px, 9vw, 92px);
+            object-fit: cover;
+        }
+        .exp-info {
+            padding: 7px 8px 9px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .exp-info h4 {
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .exp-info p {
+            font-size: 0.66rem;
+            color: #777;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* Slide 8: Day Trip Idea */
+        .daytrip-layout {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            height: 100%;
+            width: 100%;
+        }
+        .daytrip-img-col {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+        .daytrip-img-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .daytrip-badge-overlay {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: rgba(42, 40, 37, 0.88);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 3px;
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .daytrip-content-col {
+            padding: clamp(22px, 3.5vw, 45px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--bg-white);
+        }
+
+        /* Slide 9: Tips */
+        .tip-list { counter-reset: tip-counter; list-style: none; margin-top: 15px; }
+        .tip-list li { position: relative; padding-left: 50px; margin-bottom: 22px; }
+        .tip-list li::before { counter-increment: tip-counter; content: "0" counter(tip-counter); position: absolute; left: 0; top: -5px; font-family: var(--font-serif); font-size: 1.6rem; color: var(--accent-gold); }
+
+        /* Slide 10: Checklist */
+        .checklist { list-style: none; margin-top: 15px; }
+        .checklist li { margin-bottom: 12px; font-size: 0.84rem; display: flex; align-items: flex-start; }
+        .checklist li i { color: var(--accent-gold); margin-right: 12px; margin-top: 3px; font-size: 0.95rem; flex-shrink: 0; }
+
+        /* Slide 11: Thank You QR */
+        .thankyou-box { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
+        .qr-code-img { width: 130px; height: 130px; border: 4px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.12); margin-bottom: 16px; border-radius: 4px; }
+
+        /* Slide 12: Back Cover */
+        #slide-12 {
+            background: url('assets/gajo-interior.jpg') center/cover, url('https://images.unsplash.com/photo-1601275868399-45be03c39121?q=80&w=1600') center/cover;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Controls */
+        .controls { position: absolute; bottom: 22px; right: 30px; z-index: 100; display: flex; gap: 10px; }
+        .btn { background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); border: 1px solid rgba(0,0,0,0.12); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 0.9rem; color: #333; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; }
+        .btn:hover { background: var(--bg-dark); color: white; border-color: var(--bg-dark); }
+        .dark-mode-active .btn { background: rgba(42, 40, 37, 0.7); border-color: rgba(255,255,255,0.3); color: white; }
+        .dark-mode-active .btn:hover { background: white; color: var(--bg-dark); }
+        .slide-counter { position: absolute; bottom: 28px; left: 30px; z-index: 100; font-size: 0.78rem; letter-spacing: 2px; font-weight: 500; }
+        .dark-mode-active .slide-counter { color: white !important; }
+
+        /* Print Style (Landscape PDF) */
+        @media print {
+            body { background: white !important; padding: 0 !important; }
+            .catalogue-container { width: 100% !important; height: auto !important; aspect-ratio: auto !important; box-shadow: none !important; border-radius: 0 !important; overflow: visible !important; }
+            .slide { position: relative !important; opacity: 1 !important; visibility: visible !important; width: 100vw !important; height: 69vw !important; page-break-after: always !important; break-after: page !important; }
+            .controls, .slide-counter { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="catalogue-container" id="catalogueDeck">
+
+    <!-- Slide 1: Cover -->
+    <div class="slide active" id="slide-1" data-dark="true">
+        <h1 style="font-family: var(--font-serif)">GAJO's HOUSE</h1>
+        <p style="letter-spacing: 2px; text-transform: uppercase;">Boutique Homestay &bull; Hoài Nhơn, Bình Định</p>
+        <p class="text-script" style="margin-top: 20px; color: #ddd;">Chạm bình yên nơi thời gian chậm lại</p>
+    </div>
+
+    <!-- Slide 2: Welcome -->
+    <div class="slide" id="slide-2">
+        <div class="half-split">
+            <div class="half white-bg">
+                <div class="subtitle">Welcome to</div>
+                <h2 style="font-size: clamp(1.8rem, 2.6vw, 2.3rem); margin-bottom: 14px;">GAJO's HOUSE</h2>
+                <p>Tọa lạc tại vùng Hoài Nhơn Đông bình yên, GAJO's HOUSE là một boutique homestay mới xây được chăm chút tỉ mỉ từng góc nhỏ để mang đến không gian thư giãn tĩnh tại, sạch sẽ không tì vết.</p>
+                <p style="color: #666; font-style: italic;">Nestled in a peaceful sanctuary in Hoai Nhon, GAJO's HOUSE is crafted for you to rest, recharge, and enjoy the simplest things in life.</p>
+                <p class="text-script" style="margin-top: 16px; color: var(--accent-gold);">Cảm ơn bạn đã chọn chúng tôi!</p>
+            </div>
+            <div class="half bg-img" style="background-image: url('assets/gajo-interior.jpg'), url('https://lh3.googleusercontent.com/gps-cs-s/AHRPTWl8HWjasc67x4XzK1GRECaF2MyKYQEx0WlrPDYXR4OTPs_jQqP-SW0roc7ZhKbrdtNPODyN7XrV5zv0pKQs6kU3_PjQrrvqR_Wu2CkIZW1C2BiyRGnFzGV_TXVHZyzR5IKLAylF9C-araI=w800');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Check In/Out & Wifi -->
+    <div class="slide" id="slide-3">
+        <div class="half-split">
+            <div class="half white-bg">
+                <h3 style="font-size: 1.35rem; margin-bottom: 6px;">CHECK IN</h3>
+                <p>Giờ nhận phòng: <strong>Sau 14:00</strong><br><span style="font-size: 0.78rem; color:#888;">Early check-in subject to availability.</span></p>
+                <h3 style="font-size: 1.35rem; margin-bottom: 6px; margin-top: 22px;">CHECK OUT</h3>
+                <p>Giờ trả phòng: <strong>Trước 11:00</strong><br><span style="font-size: 0.78rem; color:#888;">Late check-out subject to availability.</span></p>
+            </div>
+            <div class="half dark-bg" style="text-align: center;">
+                <i class="fa-solid fa-wifi" style="font-size: 2.4rem; color: var(--accent-gold); margin-bottom: 14px;"></i>
+                <h3 style="font-size: 1.7rem; margin-bottom: 14px;">WIFI TỐC ĐỘ CAO</h3>
+                <p style="text-transform: uppercase; letter-spacing: 1px; color:#aaa; margin-bottom: 3px; font-size: 0.75rem;">Mạng / Network</p>
+                <p style="font-size: 1.15rem; font-weight: 600; margin-bottom: 14px; color: #fff;">GAJOS_HOUSE</p>
+                <p style="text-transform: uppercase; letter-spacing: 1px; color:#aaa; margin-bottom: 3px; font-size: 0.75rem;">Mật khẩu / Password</p>
+                <p style="font-size: 1.15rem; font-weight: 600; color: #fff;">gajohouse123</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Our Rooms (CĂN GIỮA TRUNG TÂM HOÀN HẢO) -->
+    <div class="slide white-bg" id="slide-4">
+        <div class="rooms-centered-container">
+            <div class="header-box">
+                <div class="subtitle">Không gian lưu trú</div>
+                <h2 style="font-size: clamp(1.6rem, 2.3vw, 2.1rem);">Our Boutique Rooms</h2>
+                <p style="font-size: 0.8rem; color: #666; margin: 0;">Mỗi căn phòng đều ngập tràn ánh sáng, giường nệm êm ái và sạch bóng không tì vết.</p>
+            </div>
+
+            <div class="rooms-grid">
+                <!-- Room 1: GA-AN (Giường Đôi) -->
+                <div class="room-card">
+                    <img src="assets/gajo-double-bed.jpg" onerror="this.src='https://q-xx.bstatic.com/xdata/images/hotel/max500/800349698.jpg?k=689d425a9e9f1309efcc442b23dead27a643c5b79dedef9f4cc924f6a2cfef22&o='" class="room-card-img" alt="Phòng GA-AN Giường Đôi">
+                    <div class="room-card-body">
+                        <div>
+                            <div class="room-tag">Double Room &bull; 1 Giường Đôi Lớn</div>
+                            <h3>GA-AN (AN YÊN)</h3>
+                            <p>Không gian tĩnh tại với tone gỗ ấm, cửa sổ đón nắng và đệm ga cao cấp cho giấc ngủ sâu.</p>
+                        </div>
+                        <div class="room-features">
+                            <span><i class="fa-solid fa-wind" style="color:var(--accent-gold);"></i> Điều hòa êm</span>
+                            <span><i class="fa-solid fa-tv" style="color:var(--accent-gold);"></i> Smart TV</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 2: GA-MỘ (Giường Đơn / Tiêu Chuẩn) -->
+                <div class="room-card">
+                    <img src="assets/gajo-single-bed.jpg" onerror="this.src='https://q-xx.bstatic.com/xdata/images/hotel/max500/800348652.jpg?k=6e0ec10188f71b61fe081162718fbd25fc7294a2d4c6f8e7e861a78b1cfd00f9&o='" class="room-card-img" alt="Phòng GA-MỘ Giường Đơn Tiêu Chuẩn">
+                    <div class="room-card-body">
+                        <div>
+                            <div class="room-tag">Standard Room &bull; Tối Giản</div>
+                            <h3>GA-MỘ (MỘC MẠC)</h3>
+                            <p>Thiết kế mộc mạc chuẩn phong cách Japandi, ấm áp, tối ưu hóa công năng và sự thư thái.</p>
+                        </div>
+                        <div class="room-features">
+                            <span><i class="fa-solid fa-shower" style="color:var(--accent-gold);"></i> Nước nóng</span>
+                            <span><i class="fa-solid fa-wifi" style="color:var(--accent-gold);"></i> Wifi khỏe</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 3: GA-ĐÌNH (Family Room - Ảnh Thực Tế Matisse Art Frame) -->
+                <div class="room-card">
+                    <img src="assets/gajo-family-room.jpg" onerror="this.src='https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=600'" class="room-card-img" alt="Phòng GA-ĐÌNH Gia Đình 2 Giường Lớn">
+                    <div class="room-card-body">
+                        <div>
+                            <div class="room-tag">Family Suite &bull; 2 Giường King Size</div>
+                            <h3>GA-ĐÌNH (GIA ĐÌNH)</h3>
+                            <p>Căn phòng rộng rãi thoáng mát với tranh nghệ thuật Matisse, sàn xương cá ấm cúng cho nhóm 4-5 người.</p>
+                        </div>
+                        <div class="room-features">
+                            <span><i class="fa-solid fa-users" style="color:var(--accent-gold);"></i> 4-5 Khách</span>
+                            <span><i class="fa-solid fa-bed" style="color:var(--accent-gold);"></i> 2 Giường Lớn</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Amenities -->
+    <div class="slide" id="slide-5">
+        <div class="amenities-split-layout">
+            <div class="amenities-photo-col">
+                <img src="assets/gajo-interior.jpg" onerror="this.src='https://lh3.googleusercontent.com/gps-cs-s/AHRPTWl8HWjasc67x4XzK1GRECaF2MyKYQEx0WlrPDYXR4OTPs_jQqP-SW0roc7ZhKbrdtNPODyN7XrV5zv0pKQs6kU3_PjQrrvqR_Wu2CkIZW1C2BiyRGnFzGV_TXVHZyzR5IKLAylF9C-araI=w800'" alt="Nội thất GAJO's HOUSE">
+                <div class="amenities-badge-float">
+                    "Chuẩn mực Spotless — Tinh khôi từng góc nhỏ"
+                </div>
+            </div>
+            <div class="amenities-content-col">
+                <div class="subtitle">Tiện nghi chu đáo</div>
+                <h2 style="font-size: clamp(1.6rem, 2.3vw, 2.1rem); margin-bottom: 6px;">Thoughtful Amenities</h2>
+                <p style="font-size: 0.78rem; color: #666; margin-bottom: 10px;">Chúng tôi trang bị trọn vẹn tiện ích để bạn luôn cảm thấy dễ chịu như ở chính ngôi nhà của mình.</p>
+                
+                <div class="amenities-grid-compact">
+                    <div class="amenity-mini-card">
+                        <i class="fa-solid fa-wifi amenity-mini-icon"></i>
+                        <div class="amenity-mini-text">
+                            <h4>WiFi Tốc Độ Cao</h4>
+                            <p>Phủ sóng mọi phòng</p>
+                        </div>
+                    </div>
+                    <div class="amenity-mini-card">
+                        <i class="fa-regular fa-snowflake amenity-mini-icon"></i>
+                        <div class="amenity-mini-text">
+                            <h4>Điều Hòa Inverter</h4>
+                            <p>Vận hành siêu êm</p>
+                        </div>
+                    </div>
+                    <div class="amenity-mini-card">
+                        <i class="fa-solid fa-shower amenity-mini-icon"></i>
+                        <div class="amenity-mini-text">
+                            <h4>Nước Nóng Trung Tâm</h4>
+                            <p>Áp lực mạnh mẽ</p>
+                        </div>
+                    </div>
+                    <div class="amenity-mini-card">
+                        <i class="fa-solid fa-broom amenity-mini-icon"></i>
+                        <div class="amenity-mini-text">
+                            <h4>Dọn Phòng Spotless</h4>
+                            <p>Khăn drap thơm mới</p>
+                        </div>
+                    </div>
+                    <div class="amenity-mini-card">
+                        <i class="fa-solid fa-motorcycle amenity-mini-icon"></i>
+                        <div class="amenity-mini-text">
+                            <h4>Cho Thuê Xe Máy</h4>
+                            <p>Xe đời mới tiết kiệm xăng</p>
+                        </div>
+                    </div>
+                    <div class="amenity-mini-card">
+                        <i class="fa-solid fa-square-parking amenity-mini-icon"></i>
+                        <div class="amenity-mini-text">
+                            <h4>Bãi Xe An Toàn</h4>
+                            <p>Camera an ninh 24/7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Places to Eat & Tiệm Nướng Nhà Gạo -->
+    <div class="slide white-bg" id="slide-6">
+        <div class="food-showcase">
+            <div class="bbq-hero-box">
+                <span class="badge">MUST-TRY &bull; CÙNG CHỦ GAJO'S HOUSE</span>
+                <h2 style="font-size: 1.8rem; color: #fff; margin-bottom: 8px;">Tiệm Nướng Nhà Gạo</h2>
+                <p style="font-size: 0.82rem; color: #E8D8C3; margin-bottom: 12px;">
+                    Không gian Vintage sân vườn lãng mạn ví như <em>"Tiểu Đà Lạt giữa lòng Hoài Nhơn"</em>. Thưởng thức bò nướng tảng sốt đặc trưng và các đêm nhạc acoustic nhẹ nhàng.
+                </p>
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop" style="width: 100%; height: 140px; object-fit: cover; border-radius: 4px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.2);" alt="Tiệm Nướng Nhà Gạo">
+                <div style="font-size: 0.78rem; display: flex; justify-content: space-between; color: #ccc;">
+                    <span><i class="fa-solid fa-location-dot" style="color:var(--accent-gold);"></i> Cách homestay ~2.6km</span>
+                    <span><i class="fa-solid fa-phone" style="color:var(--accent-gold);"></i> <strong>0902 286 300</strong></span>
+                </div>
+            </div>
+
+            <div>
+                <div class="subtitle">Gợi ý ẩm thực lân cận</div>
+                <h3 style="font-size: 1.3rem; margin-bottom: 12px;">Places to Eat Nearby</h3>
+                <div class="food-list-mini">
+                    <div class="food-item-mini">
+                        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=200&auto=format&fit=crop" class="food-img-thumb" alt="Coffee Gạo">
+                        <div>
+                            <h4 style="font-size: 0.88rem; margin-bottom: 2px;">Coffee Gạo (Gạo Cafe)</h4>
+                            <p style="font-size: 0.72rem; margin: 0; color:#777;">Cà phê không gian mộc mạc, yên bình &bull; Gần kề</p>
+                        </div>
+                    </div>
+                    <div class="food-item-mini">
+                        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=200&auto=format&fit=crop" class="food-img-thumb" alt="Bonjour Cafe">
+                        <div>
+                            <h4 style="font-size: 0.88rem; margin-bottom: 2px;">Bonjour Cafe</h4>
+                            <p style="font-size: 0.72rem; margin: 0; color:#777;">Cà phê góc phố &amp; bánh ngọt thơm ngon &bull; 5 phút</p>
+                        </div>
+                    </div>
+                    <div class="food-item-mini">
+                        <img src="https://images.unsplash.com/photo-1559314809-0d155014e29e?q=80&w=200&auto=format&fit=crop" class="food-img-thumb" alt="GAJO Thái">
+                        <div>
+                            <h4 style="font-size: 0.88rem; margin-bottom: 2px;">GAJO Thái &amp; Quán A Mãi</h4>
+                            <p style="font-size: 0.72rem; margin: 0; color:#777;">Món Thái &amp; Ẩm thực bản địa đậm vị (4.7 sao) &bull; ~2.8km</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: 8 TRẢI NGHIỆM LOANH QUANH HOÀI NHƠN (CĂN GIỮA TOÀN BỘ) -->
+    <div class="slide" id="slide-7">
+        <div class="exp-centered-container">
+            <div class="header-box">
+                <div class="subtitle">Khám phá thị xã Hoài Nhơn</div>
+                <h2 style="font-size: clamp(1.6rem, 2.3vw, 2.1rem);">8 Trải Nghiệm Loanh Quanh Hoài Nhơn</h2>
+                <p style="font-size: 0.78rem; color: #666; margin: 0;">Những điểm check-in thiên nhiên, văn hóa và biển cả hoang sơ gần homestay.</p>
+            </div>
+
+            <div class="experiences-grid-8">
+                <!-- 1: Biển & Gành Đá Lộ Diêu -->
+                <div class="exp-item">
+                    <img src="assets/exp-lodieu.jpg" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400'" class="exp-img" alt="Gành Đá Lộ Diêu">
+                    <div class="exp-info">
+                        <h4>Biển &amp; Gành Lộ Diêu</h4>
+                        <p>Bãi đá trăng khuyết hoang sơ</p>
+                    </div>
+                </div>
+                <!-- 2: Đèo Hoài Hải - Lộ Diêu -->
+                <div class="exp-item">
+                    <img src="assets/exp-deolodieu.jpg" onerror="this.src='https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400'" class="exp-img" alt="Đèo Hoài Hải Lộ Diêu">
+                    <div class="exp-info">
+                        <h4>Đèo Hoài Hải - Lộ Diêu</h4>
+                        <p>Dải lụa ôm vách núi ven biển</p>
+                    </div>
+                </div>
+                <!-- 3: Săn Bình Minh Mũi Gành -->
+                <div class="exp-item">
+                    <img src="assets/exp-muiganh.jpg" onerror="this.src='https://images.unsplash.com/photo-1472806426350-603610d85659?q=80&w=400'" class="exp-img" alt="Bình Minh Mũi Gành Hoài Hải">
+                    <div class="exp-info">
+                        <h4>Săn Bình Minh Mũi Gành</h4>
+                        <p>Đón tia nắng đầu tiên 05:30</p>
+                    </div>
+                </div>
+                <!-- 4: Xứ Dừa Tam Quan -->
+                <div class="exp-item">
+                    <img src="assets/exp-tamquan.jpg" onerror="this.src='https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=400'" class="exp-img" alt="Xứ Dừa Tam Quan">
+                    <div class="exp-info">
+                        <h4>Xứ Dừa Tam Quan</h4>
+                        <p>Rừng dừa xanh mát &amp; làng nghề</p>
+                    </div>
+                </div>
+                <!-- 5: Cao Nguyên La Vuông -->
+                <div class="exp-item">
+                    <img src="assets/exp-lavuong.jpg" onerror="this.src='https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=400'" class="exp-img" alt="Cao Nguyên La Vuông">
+                    <div class="exp-info">
+                        <h4>Cao Nguyên La Vuông</h4>
+                        <p>Săn mây độ cao trên 700m</p>
+                    </div>
+                </div>
+                <!-- 6: Hồ Mỹ Bình -->
+                <div class="exp-item">
+                    <img src="assets/exp-mybinh.jpg" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=400'" class="exp-img" alt="Hồ Mỹ Bình">
+                    <div class="exp-info">
+                        <h4>Hồ Nước Mỹ Bình</h4>
+                        <p>Picnic &amp; cắm trại hồ thanh bình</p>
+                    </div>
+                </div>
+                <!-- 7: Mũi Vi Rồng -->
+                <div class="exp-item">
+                    <img src="assets/exp-muivirong.jpg" onerror="this.src='https://images.unsplash.com/photo-1518457607834-6e8d80c183c5?q=80&w=400'" class="exp-img" alt="Mũi Vi Rồng">
+                    <div class="exp-info">
+                        <h4>Mũi Vi Rồng (Tân Phụng)</h4>
+                        <p>Kỳ quan rồng đá vươn biển</p>
+                    </div>
+                </div>
+                <!-- 8: Cà Phê Gạo Vintage -->
+                <div class="exp-item">
+                    <img src="assets/exp-gaocoffee.jpg" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=400'" class="exp-img" alt="Cà Phê Gạo Vintage">
+                    <div class="exp-info">
+                        <h4>Cà Phê Gạo Vintage</h4>
+                        <p>Góc sống ảo &amp; acoustic chill</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: DAY TRIP IDEA -->
+    <div class="slide" id="slide-8">
+        <div class="daytrip-layout">
+            <div class="daytrip-img-col">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop" alt="Đèo Hoài Hải Lộ Diêu và Mũi Vi Rồng Bình Định">
+                <div class="daytrip-badge-overlay">
+                    ★ CUNG ĐƯỜNG ĐÈO BIỂN &amp; SĂN BÌNH MINH ĐẸP NHẤT BÌNH ĐỊNH
+                </div>
+            </div>
+
+            <div class="daytrip-content-col">
+                <div class="subtitle" style="color: var(--accent-gold);">Day Trip Recommendation</div>
+                <h2 style="font-size: clamp(1.6rem, 2.2vw, 2.0rem); margin-bottom: 10px; color: var(--text-dark);">
+                    Đèo Hoài Hải – Lộ Diêu<br>&amp; Mũi Vi Rồng
+                </h2>
+                <p style="color: #555; margin-bottom: 12px; font-size: 0.8rem;">
+                    Cung đường ven biển ĐT.639 dài 4.5km uốn lượn như dải lụa giữa vách núi đá và đại dương xanh thẳm, nối liền bãi đá trăng khuyết Lộ Diêu với kỳ quan Mũi Vi Rồng kỳ vĩ.
+                </p>
+
+                <div style="background: var(--bg-light); padding: 12px 16px; border-radius: 4px; border-left: 3px solid var(--accent-gold); margin-bottom: 12px;">
+                    <div style="font-size: 0.76rem; margin-bottom: 4px;"><strong>Lịch trình săn bình minh:</strong> Xuất phát lúc <strong>05:00 sáng</strong> từ GAJO's HOUSE.</div>
+                    <div style="font-size: 0.76rem; margin-bottom: 4px;"><strong>Điểm check-in:</strong> Đỉnh đèo Lộ Diêu &bull; Mũi Gành Hoài Hải &bull; Bãi đá Lộ Diêu &bull; Mũi Vi Rồng.</div>
+                    <div style="font-size: 0.76rem; color: #666;"><strong>Trải nghiệm:</strong> Ngắm mặt trời mọc trên biển, chụp ảnh rêu xanh và thưởng thức hải sản tươi tại làng chài.</div>
+                </div>
+
+                <div style="font-size: 0.76rem; color: var(--accent-sage); font-weight: 600;">
+                    &bull; Lễ tân GAJO's HOUSE hỗ trợ cho thuê xe máy &amp; hướng dẫn lộ trình chi tiết!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Tips for stay -->
+    <div class="slide" id="slide-9">
+        <div class="half-split">
+            <div class="half">
+                <div class="subtitle">Mẹo nhỏ cho kỳ nghỉ</div>
+                <h2 style="font-size: clamp(1.8rem, 2.6vw, 2.4rem); margin-bottom: 20px;">Tips for your stay</h2>
+                <ul class="tip-list">
+                    <li>
+                        <strong>Vui lòng giữ yên tĩnh sau 22:00</strong>
+                        <p style="color:#666; font-size:0.78rem; margin-top:3px;">Please keep quiet after 10:00 PM so everyone can rest peacefully.</p>
+                    </li>
+                    <li>
+                        <strong>Tắt thiết bị điện &amp; máy lạnh khi ra ngoài</strong>
+                        <p style="color:#666; font-size:0.78rem; margin-top:3px;">Please turn off the AC and appliances when leaving your room.</p>
+                    </li>
+                    <li>
+                        <strong>Gọi chủ nhà / Lễ tân khi cần hỗ trợ</strong>
+                        <p style="color:#666; font-size:0.78rem; margin-top:3px;">Feel free to contact us anytime for assistance or local tips.</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="half bg-img" style="background-image: url('assets/gajo-interior.jpg'), url('https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800');"></div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Before you go -->
+    <div class="slide white-bg" id="slide-10">
+        <div class="half-split">
+            <div class="half bg-img" style="background-image: url('assets/gajo-double-bed.jpg'), url('https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=800');"></div>
+            <div class="half">
+                <div class="subtitle">Trước khi bạn rời đi</div>
+                <h2 style="font-size: clamp(1.8rem, 2.6vw, 2.3rem); margin-bottom: 12px;">Before you go</h2>
+                <ul class="checklist">
+                    <li>
+                        <i class="fa-regular fa-circle-check"></i>
+                        <div><strong>Kiểm tra đồ cá nhân</strong><br><span style="color:#888; font-size:0.75rem;">Check your luggage &amp; chargers</span></div>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-check"></i>
+                        <div><strong>Gửi lại chìa khóa phòng</strong><br><span style="color:#888; font-size:0.75rem;">Return the room key to host</span></div>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-check"></i>
+                        <div><strong>Kiểm tra cửa &amp; cửa sổ</strong><br><span style="color:#888; font-size:0.75rem;">Ensure doors &amp; windows are closed</span></div>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-check"></i>
+                        <div><strong>Hỗ trợ đặt xe / Gửi hóa đơn</strong><br><span style="color:#888; font-size:0.75rem;">Let us know if you need transport or invoice</span></div>
+                    </li>
+                    <li>
+                        <i class="fa-regular fa-circle-check"></i>
+                        <div><strong>Để lại đánh giá 5 sao cho GAJO</strong><br><span style="color:#888; font-size:0.75rem;">Share your review on Google Maps</span></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Thank You & QR Feedback -->
+    <div class="slide" id="slide-11" style="background: linear-gradient(rgba(247, 245, 240, 0.92), rgba(247, 245, 240, 0.92)), url('assets/gajo-interior.jpg') center/cover, url('https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=1600') center/cover;">
+        <div class="thankyou-box">
+            <div class="text-script" style="font-size: clamp(2.3rem, 4vw, 3.5rem); margin-bottom: 6px; color: var(--accent-gold);">Thank you</div>
+            <h2 style="font-size: 1.35rem; margin-bottom: 10px;">CẢM ƠN BẠN ĐÃ GHÉ THĂM!</h2>
+            <p style="max-width: 520px; margin-bottom: 18px; color: #555; font-size: 0.82rem;">Chúng tôi hy vọng bạn đã có những phút giây nghỉ ngơi thật trọn vẹn tại GAJO's HOUSE. Quét mã QR dưới đây để chia sẻ đánh giá 5 sao cho chúng mình nhé!</p>
+            
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://maps.app.goo.gl/jAWENgZvarDbmG7f6" alt="GAJO's HOUSE Google Maps QR Code" class="qr-code-img">
+            
+            <p style="font-size: 0.88rem; line-height: 1.6; margin: 0;">
+                <strong>GAJO's HOUSE &bull; BOUTIQUE HOMESTAY</strong><br>
+                <i class="fa-solid fa-location-dot" style="font-size: 0.8rem; color: var(--accent-gold); margin-right:4px;"></i> Hẻm 23 Phan Trọng Tuệ, Hoài Nhơn Đông &nbsp;|&nbsp;
+                <i class="fa-solid fa-phone" style="font-size: 0.8rem; color: var(--accent-gold); margin-right:4px;"></i> <strong>0902 286 300</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 12: Back Cover -->
+    <div class="slide" id="slide-12" data-dark="true">
+        <div style="background: rgba(42, 40, 37, 0.88); width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
+            <i class="fa-solid fa-house" style="font-size: 2.2rem; color: var(--accent-gold); margin-bottom: 16px;"></i>
+            <h1 style="font-family: var(--font-serif); font-size: clamp(2rem, 3.4vw, 2.7rem); color: white; letter-spacing: 3px;">GAJO's HOUSE</h1>
+            <p class="text-script" style="margin-top: 24px; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--accent-gold);">Stay simple.</p>
+            <p class="text-script" style="font-size: clamp(2rem, 3.5vw, 3rem); color: white;">live slow, feel home.</p>
+        </div>
+    </div>
+
+    <!-- Navigation & Counter -->
+    <div class="slide-counter" id="counter">01 / 12</div>
+    <div class="controls">
+        <button class="btn" id="prevBtn" title="Trang trước (Mũi tên Trái)"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="btn" id="nextBtn" title="Trang sau (Mũi tên Phải / Phím cách)"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const counter = document.getElementById('counter');
+        const container = document.getElementById('catalogueDeck');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                if(index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            const slideNum = (currentSlide + 1).toString().padStart(2, '0');
+            const total = slides.length.toString().padStart(2, '0');
+            counter.innerText = `${slideNum} / ${total}`;
+
+            const isDark = slides[currentSlide].getAttribute('data-dark') === 'true';
+            if(isDark) {
+                container.classList.add('dark-mode-active');
+            } else {
+                container.classList.remove('dark-mode-active');
+            }
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlide();
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if(e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if(e.key === 'Home') {
+                e.preventDefault();
+                currentSlide = 0;
+                updateSlide();
+            } else if(e.key === 'End') {
+                e.preventDefault();
+                currentSlide = slides.length - 1;
+                updateSlide();
+            }
+        });
+
+        let startX = 0;
+        let endX = 0;
+        container.addEventListener('touchstart', (e) => {
+            startX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        container.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].screenX;
+            if (endX - startX > 40) prevSlide();
+            else if (startX - endX > 40) nextSlide();
+        }, { passive: true });
+
+        updateSlide();
+    });
+</script>
+
+</body>
+</html>
