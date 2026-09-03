@@ -47,7 +47,7 @@
             align-items: center;
             justify-content: center;
             overflow-x: hidden;
-            padding: 15px 10px 85px;
+            padding: 20px 10px;
             user-select: none;
         }
 
@@ -65,7 +65,7 @@
         /* Top Brand Header */
         .brand-header {
             text-align: center;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             color: #E6E1DA;
             animation: fadeIn 0.8s ease-out;
         }
@@ -622,248 +622,9 @@
             display: block;
         }
 
-        /* BOTTOM FLOATING CONTROLS */
-        .bottom-nav-bar {
-            position: fixed;
-            bottom: 18px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(30, 27, 24, 0.94);
-            backdrop-filter: blur(12px);
-            padding: 8px 20px;
-            border-radius: 40px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid rgba(197, 160, 89, 0.35);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.65);
-            z-index: 1000;
-        }
-        .nav-btn {
-            background: transparent;
-            border: none;
-            color: #E2DBD0;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            transition: all 0.25s ease;
-        }
-        .nav-btn:hover {
-            background: var(--accent-gold);
-            color: #1E1B18;
-            transform: scale(1.1);
-        }
-        .nav-btn.btn-highlight {
-            background: var(--accent-gold);
-            color: #1E1B18;
-            font-weight: 600;
-        }
-        .nav-page-indicator {
-            color: var(--accent-gold-light);
-            font-family: var(--font-serif);
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            padding: 0 8px;
-            min-width: 80px;
-            text-align: center;
-        }
-        .divider-vert {
-            width: 1px;
-            height: 22px;
-            background: rgba(255,255,255,0.15);
-        }
-
-        /* THUMBNAIL DRAWER */
-        .thumbnail-drawer {
-            position: fixed;
-            bottom: 75px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: rgba(24, 22, 20, 0.96);
-            backdrop-filter: blur(15px);
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(197, 160, 89, 0.35);
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            max-width: 92vw;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.85);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 999;
-        }
-        .thumbnail-drawer.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(-50%) translateY(0);
-        }
-        .thumb-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-            flex-shrink: 0;
-        }
-        .thumb-item:hover {
-            transform: translateY(-4px);
-        }
-        .thumb-box {
-            width: 58px;
-            height: 80px;
-            background: var(--bg-cream);
-            border-radius: 4px;
-            border: 1px solid rgba(255,255,255,0.2);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: #555;
-            font-weight: 700;
-        }
-        .thumb-item.active .thumb-box {
-            border: 2px solid var(--accent-gold);
-            box-shadow: 0 0 12px rgba(197, 160, 89, 0.65);
-        }
-        .thumb-label {
-            font-size: 0.65rem;
-            color: #A39D94;
-            margin-top: 5px;
-        }
-
-        /* EXPORT / PRINT MODAL */
-        .export-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-            z-index: 3000;
-        }
-        .export-modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .export-modal-box {
-            background: #1E1B18;
-            color: #F7F5F0;
-            border: 1px solid rgba(197, 160, 89, 0.4);
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 480px;
-            width: 90%;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-            text-align: center;
-            position: relative;
-        }
-        .export-modal-box h3 {
-            font-family: var(--font-display);
-            color: var(--accent-gold-light);
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-        .export-modal-box p {
-            font-size: 0.82rem;
-            color: #BBB4A8;
-            margin-bottom: 22px;
-            line-height: 1.5;
-        }
-        .export-options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .export-opt-btn {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(197, 160, 89, 0.25);
-            padding: 14px 18px;
-            border-radius: 8px;
-            color: #FFF;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            text-align: left;
-        }
-        .export-opt-btn:hover {
-            background: var(--accent-gold);
-            color: #1E1B18;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
-        }
-        .export-opt-btn:hover i {
-            color: #1E1B18;
-        }
-        .export-opt-btn i {
-            font-size: 1.6rem;
-            color: var(--accent-gold);
-            width: 32px;
-            text-align: center;
-        }
-        .export-opt-btn strong {
-            display: block;
-            font-size: 0.92rem;
-            margin-bottom: 2px;
-        }
-        .export-opt-btn span {
-            font-size: 0.74rem;
-            opacity: 0.85;
-        }
-        .modal-close-btn {
-            position: absolute;
-            top: 14px;
-            right: 16px;
-            background: transparent;
-            border: none;
-            color: #A39D94;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        .modal-close-btn:hover {
-            color: #FFF;
-        }
-
-        /* Sound notification toast */
-        .toast-msg {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            background: rgba(30, 27, 24, 0.95);
-            color: var(--accent-gold-light);
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            letter-spacing: 1px;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s;
-            z-index: 2000;
-        }
-        .toast-msg.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        /* PAGE 12: BACK COVER (CĂN GIỮA TUYỆT ĐỐI) */
+        .page-cover-bottom {
+            background: var(--bg-leather) !important;
         }
 
         @keyframes fadeIn {
@@ -875,7 +636,6 @@
         @media (max-width: 768px) {
             .brand-header { margin-bottom: 10px; }
             .page-content { padding: 25px 20px; }
-            .bottom-nav-bar { padding: 6px 14px; gap: 6px; }
             .cover-title { font-size: 2rem; }
         }
 
@@ -891,7 +651,7 @@
                 margin: 0 !important;
                 display: block !important;
             }
-            .brand-header, .bottom-nav-bar, .thumbnail-drawer, .export-modal-overlay, .toast-msg, .book-shadow-decor {
+            .brand-header, .book-shadow-decor {
                 display: none !important;
             }
             .stage-container, .flipbook-viewport {
@@ -932,8 +692,6 @@
 </head>
 <body>
 
-<div class="toast-msg" id="toast">Âm thanh lật sách: BẬT</div>
-
 <div class="stage-container">
     <!-- Top Brand Header -->
     <div class="brand-header">
@@ -946,7 +704,7 @@
         <div class="book-shadow-decor"></div>
         <div class="flipbook-container" id="flipbook">
 
-            <!-- ================= PAGE 1: FRONT COVER (CĂN GIỮA TUYỆT ĐỐI) ================= -->
+            <!-- ================= PAGE 1: FRONT COVER ================= -->
             <div class="page page-cover page-cover-top" data-density="hard">
                 <div class="cover-inner">
                     <div class="cover-gold-badge">
@@ -1417,7 +1175,7 @@
                 </div>
             </div>
 
-            <!-- ================= PAGE 12: BACK COVER (CĂN GIỮA TUYỆT ĐỐI) ================= -->
+            <!-- ================= PAGE 12: BACK COVER ================= -->
             <div class="page page-cover page-cover-bottom" data-density="hard">
                 <div class="cover-inner">
                     <div class="cover-gold-badge">
@@ -1436,119 +1194,12 @@
     </div>
 </div>
 
-<!-- THUMBNAIL DRAWER -->
-<div class="thumbnail-drawer" id="thumbDrawer">
-    <div class="thumb-item active" onclick="goToPage(0)">
-        <div class="thumb-box" style="background:#1E1B18; color:var(--accent-gold);">01</div>
-        <div class="thumb-label">Bìa Trước</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(1)">
-        <div class="thumb-box">02</div>
-        <div class="thumb-label">Lời Ngỏ</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(2)">
-        <div class="thumb-box">03</div>
-        <div class="thumb-label">WiFi</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(3)">
-        <div class="thumb-box">04</div>
-        <div class="thumb-label">Phòng Nghỉ</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(4)">
-        <div class="thumb-box">05</div>
-        <div class="thumb-label">Tiện Nghi</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(5)">
-        <div class="thumb-box">06</div>
-        <div class="thumb-label">Nhà Gạo</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(6)">
-        <div class="thumb-box">07</div>
-        <div class="thumb-label">8 Điểm Đến</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(7)">
-        <div class="thumb-box">08</div>
-        <div class="thumb-label">Daytrip</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(8)">
-        <div class="thumb-box">09</div>
-        <div class="thumb-label">Mẹo Hay</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(9)">
-        <div class="thumb-box">10</div>
-        <div class="thumb-label">Checklist</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(10)">
-        <div class="thumb-box">11</div>
-        <div class="thumb-label">Cảm Ơn</div>
-    </div>
-    <div class="thumb-item" onclick="goToPage(11)">
-        <div class="thumb-box" style="background:#1E1B18; color:var(--accent-gold);">12</div>
-        <div class="thumb-label">Bìa Sau</div>
-    </div>
-</div>
-
-<!-- BOTTOM FLOATING CONTROLS -->
-<div class="bottom-nav-bar">
-    <button class="nav-btn" id="prevBtn" title="Trang trước (Mũi tên Trái)"><i class="fa-solid fa-chevron-left"></i></button>
-    <div class="nav-page-indicator" id="pageIndicator">01 / 12</div>
-    <button class="nav-btn" id="nextBtn" title="Trang sau (Mũi tên Phải)"><i class="fa-solid fa-chevron-right"></i></button>
-    <div class="divider-vert"></div>
-    <button class="nav-btn" id="thumbToggleBtn" title="Danh sách trang thu nhỏ"><i class="fa-solid fa-table-cells-large"></i></button>
-    <button class="nav-btn" id="soundToggleBtn" title="Bật/Tắt âm thanh lật sách"><i class="fa-solid fa-volume-high"></i></button>
-    <button class="nav-btn" id="fullscreenBtn" title="Toàn màn hình"><i class="fa-solid fa-expand"></i></button>
-    <div class="divider-vert"></div>
-    <!-- Nút Download / In ấn / Xuất file -->
-    <button class="nav-btn btn-highlight" id="exportBtn" title="Tải về &amp; In ấn Catalogue (PDF / Slide PPT)"><i class="fa-solid fa-cloud-arrow-down"></i></button>
-</div>
-
-<!-- EXPORT & DOWNLOAD MODAL DIALOG -->
-<div class="export-modal-overlay" id="exportModal">
-    <div class="export-modal-box">
-        <button class="modal-close-btn" id="closeExportModal">&times;</button>
-        <i class="fa-solid fa-print" style="font-size:2.2rem; color:var(--accent-gold); margin-bottom:12px; display:inline-block;"></i>
-        <h3>IN ẤN &amp; XUẤT CATALOGUE</h3>
-        <p>Chọn định dạng bạn muốn tải về hoặc in ấn phục vụ trưng bày:</p>
-
-        <div class="export-options-grid">
-            <!-- Option 1: In trực tiếp / Xuất PDF -->
-            <div class="export-opt-btn" onclick="triggerPrintPDF()">
-                <i class="fa-solid fa-file-pdf"></i>
-                <div>
-                    <strong>In / Xuất File PDF Sắc Nét (A4 / 16:9)</strong>
-                    <span>Tự động xuất 12 trang khổ in chuẩn nét cao không viền</span>
-                </div>
-            </div>
-
-            <!-- Option 2: Bản Trình Chiếu Slide PPT -->
-            <a href="gajohouse.html" target="_blank" class="export-opt-btn">
-                <i class="fa-solid fa-file-powerpoint"></i>
-                <div>
-                    <strong>Mở Bản Trình Chiếu Slide (PPT / Keynote Deck)</strong>
-                    <span>Mở bản slide toàn màn hình 16:9 trình chiếu chuyên nghiệp</span>
-                </div>
-            </a>
-
-            <!-- Option 3: Mở Trang Đầy Đủ -->
-            <a href="index.html" target="_blank" class="export-opt-btn">
-                <i class="fa-solid fa-desktop"></i>
-                <div>
-                    <strong>Bản Trình Chiếu Index Chuẩn Đa Nền Tảng</strong>
-                    <span>Phù hợp hiển thị trên Tivi / Ipad tại quầy lễ tân</span>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-
 <script>
     let pageFlip = null;
-    let isSoundOn = true;
     let audioCtx = null;
 
     // Web Audio realistic paper turn sound generator
     function playPageFlipSound() {
-        if (!isSoundOn) return;
         try {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1584,42 +1235,17 @@
 
             noise.start();
         } catch (e) {
-            console.log('AudioContext not supported or allowed yet');
+            console.log('AudioContext not supported');
         }
-    }
-
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.innerText = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
-    }
-
-    function triggerPrintPDF() {
-        document.getElementById('exportModal').classList.remove('active');
-        setTimeout(() => {
-            window.print();
-        }, 300);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         const flipbookEl = document.getElementById('flipbook');
-        const pageIndicator = document.getElementById('pageIndicator');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const thumbToggleBtn = document.getElementById('thumbToggleBtn');
-        const thumbDrawer = document.getElementById('thumbDrawer');
-        const soundToggleBtn = document.getElementById('soundToggleBtn');
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const exportBtn = document.getElementById('exportBtn');
-        const exportModal = document.getElementById('exportModal');
-        const closeExportModal = document.getElementById('closeExportModal');
-        const thumbItems = document.querySelectorAll('.thumb-item');
 
         // Dynamic dimension calculator based on screen width
         const isMobile = window.innerWidth <= 768;
         const bookWidth = isMobile ? Math.min(window.innerWidth - 30, 440) : 490;
-        const bookHeight = isMobile ? Math.min(window.innerHeight * 0.76, 640) : 690;
+        const bookHeight = isMobile ? Math.min(window.innerHeight * 0.78, 650) : 700;
 
         pageFlip = new St.PageFlip(flipbookEl, {
             width: bookWidth,
@@ -1639,75 +1265,8 @@
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
-        function updateIndicator() {
-            const pageIndex = pageFlip.getCurrentPageIndex();
-            const total = pageFlip.getPageCount();
-            const currentStr = (pageIndex + 1).toString().padStart(2, '0');
-            const totalStr = total.toString().padStart(2, '0');
-            pageIndicator.innerText = `${currentStr} / ${totalStr}`;
-
-            thumbItems.forEach((item, idx) => {
-                if (idx === pageIndex) item.classList.add('active');
-                else item.classList.remove('active');
-            });
-        }
-
         pageFlip.on('flip', (e) => {
             playPageFlipSound();
-            updateIndicator();
-        });
-
-        pageFlip.on('init', () => {
-            updateIndicator();
-        });
-
-        prevBtn.addEventListener('click', () => {
-            pageFlip.flipPrev();
-        });
-
-        nextBtn.addEventListener('click', () => {
-            pageFlip.flipNext();
-        });
-
-        // Toggle Thumbnails Drawer
-        thumbToggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            thumbDrawer.classList.toggle('active');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!thumbDrawer.contains(e.target) && e.target !== thumbToggleBtn) {
-                thumbDrawer.classList.remove('active');
-            }
-        });
-
-        // Export Modal Events
-        exportBtn.addEventListener('click', () => {
-            exportModal.classList.add('active');
-        });
-        closeExportModal.addEventListener('click', () => {
-            exportModal.classList.remove('active');
-        });
-        exportModal.addEventListener('click', (e) => {
-            if (e.target === exportModal) exportModal.classList.remove('active');
-        });
-
-        // Toggle Sound
-        soundToggleBtn.addEventListener('click', () => {
-            isSoundOn = !isSoundOn;
-            soundToggleBtn.innerHTML = isSoundOn ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
-            showToast(`Âm thanh lật sách: ${isSoundOn ? 'BẬT' : 'TẮT'}`);
-        });
-
-        // Fullscreen Toggle
-        fullscreenBtn.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(() => {});
-                fullscreenBtn.innerHTML = '<i class="fa-solid fa-compress"></i>';
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-                fullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i>';
-            }
         });
 
         // Keyboard navigation
@@ -1726,11 +1285,6 @@
                 pageFlip.flip(pageFlip.getPageCount() - 1);
             }
         });
-
-        window.goToPage = function(index) {
-            pageFlip.flip(index);
-            thumbDrawer.classList.remove('active');
-        };
     });
 </script>
 
