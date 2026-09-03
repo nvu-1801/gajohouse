@@ -622,7 +622,7 @@
             display: block;
         }
 
-        /* PAGE 12: BACK COVER (CĂN GIỮA TUYỆT ĐỐI) */
+        /* PAGE 12: BACK COVER */
         .page-cover-bottom {
             background: var(--bg-leather) !important;
         }
@@ -639,53 +639,188 @@
             .cover-title { font-size: 2rem; }
         }
 
-        /* ================= PRINT / PDF EXPORT STYLES ================= */
+        /* ================= ULTIMATE PRINT & PDF EXPORT STYLES (NO FORM LOSS) ================= */
         @media print {
             @page {
                 size: A4 landscape;
                 margin: 0;
             }
-            body {
-                background: #FFF !important;
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            html, body {
+                width: 100% !important;
+                height: auto !important;
+                background: #FFFFFF !important;
                 padding: 0 !important;
                 margin: 0 !important;
+                overflow: visible !important;
                 display: block !important;
             }
             .brand-header, .book-shadow-decor {
                 display: none !important;
             }
-            .stage-container, .flipbook-viewport {
+            /* Override StPageFlip dynamic injected DOM wrappers */
+            .stage-container,
+            .flipbook-viewport,
+            .flipbook-container,
+            .stf__parent,
+            .stf__wrapper,
+            .stf__block,
+            .stf__item {
+                position: static !important;
                 display: block !important;
-                width: 100% !important;
-                max-width: none !important;
-                perspective: none !important;
-            }
-            .flipbook-container {
-                display: block !important;
-                box-shadow: none !important;
                 width: 100% !important;
                 height: auto !important;
+                max-width: none !important;
+                transform: none !important;
+                perspective: none !important;
+                box-shadow: none !important;
+                overflow: visible !important;
+                left: auto !important;
+                top: auto !important;
+                right: auto !important;
+                bottom: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
             }
+
+            /* Each page becomes 1 full landscape printed sheet */
             .page {
-                display: block !important;
+                position: relative !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
                 width: 100vw !important;
                 height: 100vh !important;
+                max-height: 100vh !important;
                 page-break-after: always !important;
                 break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                box-sizing: border-box !important;
+                padding: 35px 50px !important;
+                margin: 0 !important;
+                background-color: #F7F5F0 !important;
                 box-shadow: none !important;
                 border: none !important;
-                padding: 40px !important;
-                box-sizing: border-box !important;
+                overflow: hidden !important;
             }
+
+            /* Front & Back Cover on Print */
             .page-cover {
                 background: #1E1B18 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                color: #FFF !important;
+                color: #FFFFFF !important;
+                padding: 40px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                text-align: center !important;
             }
+            .cover-inner {
+                margin: auto !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .cover-gold-badge {
+                margin: 0 auto 20px auto !important;
+                background: rgba(30, 27, 24, 0.8) !important;
+            }
+            .cover-title {
+                color: #DFC48A !important;
+            }
+            .cover-subtitle {
+                color: #BBB4A8 !important;
+            }
+            .cover-script {
+                color: #E2DBD0 !important;
+            }
+            .cover-location {
+                color: #A39D94 !important;
+                border-top: 1px solid rgba(197, 160, 89, 0.4) !important;
+                margin: 30px auto 0 auto !important;
+            }
+
+            /* Inner Content on Print */
             .page-content {
                 height: 100% !important;
+                padding: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
                 justify-content: space-between !important;
+            }
+            .page-body-center {
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                margin: auto 0 !important;
+                width: 100% !important;
+            }
+
+            /* Print Images & Grids Formatting */
+            .welcome-photo {
+                height: 250px !important;
+                width: 100% !important;
+                object-fit: cover !important;
+                border-radius: 6px !important;
+            }
+            .wifi-luxury-box {
+                background: #242220 !important;
+                color: #FFF !important;
+                padding: 24px !important;
+            }
+            .room-mini-list {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 12px !important;
+            }
+            .room-mini-item {
+                display: flex !important;
+                flex-direction: row !important;
+                background: #FFF !important;
+                padding: 10px 14px !important;
+            }
+            .room-mini-img {
+                width: 130px !important;
+                height: 90px !important;
+            }
+            .amenity-grid-luxury {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+            }
+            .bbq-card-vertical {
+                background: #242220 !important;
+                color: #FFF !important;
+            }
+            .bbq-card-vertical img {
+                height: 160px !important;
+            }
+            .exp-grid-flip {
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 10px !important;
+            }
+            .exp-card-flip img {
+                height: 85px !important;
+            }
+            .daytrip-card-vertical img {
+                height: 200px !important;
+            }
+            .flip-list li {
+                background: #FFF !important;
+            }
+            .page-footer {
+                margin-top: 10px !important;
+                padding-top: 8px !important;
             }
         }
     </style>
